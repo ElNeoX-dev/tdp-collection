@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-hdfs_user_homes: []
-  # - user: tdp_user
-  #   group: tdp_user
-  #   mode: "700" # default
-  #   path: "/user/{{ user }}" # default
-  #   state: directory # default (to remove hdfs home dir use "absent")
+hdfs_user_homes: [
+     user: tdp_user,
+     group: public,
+     mode: "700", # default
+     path: "/user/{{ user }}", # default
+     state: directory 
+     ]# default (to remove hdfs home dir use "absent")

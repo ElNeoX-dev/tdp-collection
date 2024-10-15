@@ -1,0 +1,18 @@
+[Unit]
+Description=Mapred Job History Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ mapred_user }}
+Group={{ hadoop_group }}
+Type=forking
+PIDFile={{ hadoop_pid_dir }}/mapred/hadoop-mapred-historyserver.pid
+ExecStart={{ hadoop_install_dir }}/bin/mapred --config {{ hadoop_jhs_conf_dir }} --daemon start historyserver
+ExecStop={{ hadoop_install_dir }}/bin/mapred --config {{ hadoop_jhs_conf_dir }} --daemon stop historyserver
+SuccessExitStatus=143
+LimitNOFILE=64000
+Restart={{ mapred_jhs_restart }}
+
+[Install]
+WantedBy=multi-user.target

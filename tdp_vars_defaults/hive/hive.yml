@@ -3,7 +3,7 @@
 
 ---
 # Hive version
-hive_release: apache-hive-3.1.3-1.0-bin
+hive_release: apache-hive-4.0.1-1.0-bin
 hive_dist_file: "{{ hive_release }}.tar.gz"
 
 # Hive users and group
@@ -22,7 +22,6 @@ hive_ms_conf_dir: "{{ hive_root_conf_dir }}/conf.ms"
 
 # Hive pid directories
 hive_pid_dir: /var/run/hive
-
 
 # Hive logging configuration
 # Root logger should be:  [RFA | DRFA]
@@ -80,6 +79,11 @@ hive_site:
     }}
   hive.execution.engine: tez
   hive.exec.scratchdir: /tmp/hive
+  hive.conf.restricted.list: hive.security.authenticator.manager,hive.security.authorization.manager,hive.users.in.admin.role
+  hive.security.authenticator.manager: org.apache.hadoop.hive.ql.security.ProxyUserAuthenticator
+  hive.metastore.pre.event.listeners: org.apache.hadoop.hive.ql.security.authorization.AuthorizationPreEventListener
+  hive.security.authorization.manager: org.apache.hadoop.hive.ql.security.authorization.plugin.sqlstd.SQLStdConfOnlyAuthorizerFactory
+  hive.security.authorization.sqlstd.confwhitelist.append: mapred\.max\.split\.size|tez\.grouping\.min-size|tez\.grouping\.max-size|hive\.optimize\.ppd|hive\.optimize\.ppd\.storage|hive\.vectorized\.execution\.enabled|hive\.vectorized\.execution\.reduce\.enabled|hive\.vectorized\.execution\.reduce\.groupby\.enabled|hive\.cbo\.enable
   # Metastore server and client properties
   hive.metastore.sasl.enabled: "true"
   metastore.kerberos.principal: hive/_HOST@{{ realm }}
@@ -139,12 +143,12 @@ beeline_site:
   beeline.hs2.jdbc.url.default: zk_cluster
 
 # Ranger Hive properties
-ranger_hive_release: ranger-2.0.0-1.0-hive-plugin
+ranger_hive_release: ranger-2.5.0-1.0-hive-plugin
 ranger_hive_dist_file: "{{ ranger_hive_release }}.tar.gz"
 ranger_hive_install_dir: "{{ hive_root_dir }}/ranger-hive-plugin"
 ranger_hive_install_properties:
   audit_hdfs: "hdfs://{{ cluster_name }}"
-  POLICY_MGR_URL:  "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}"
+  POLICY_MGR_URL: "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}"
   REPOSITORY_NAME: hive-tdp
   XAAUDIT_SOLR_ENABLE: "{% if 'ranger_solr' in groups and groups['ranger_solr'] %}true{% else %}false{% endif %}"
   XAAUDIT_SOLR_URL: "{% if 'ranger_solr' in groups and groups['ranger_solr'] %}http://{{ groups['ranger_solr'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_solr_http_port }}/solr/ranger_audits{% else %}NONE{% endif %}"
@@ -157,7 +161,7 @@ ranger_hive_install_properties:
     }}
 
 # Tez properties
-tez_release: tez-0.9.1-1.0
+tez_release: tez-0.10.4-1.0
 tez_dist_file: "{{ tez_release }}.tar.gz"
 
 # Tez installation directory

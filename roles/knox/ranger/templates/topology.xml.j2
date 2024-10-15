@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topology>
+    <gateway>
+{% for provider_role, provider in topology.get('providers', {}).items() %}
+        <provider>
+            <role>{{ provider_role }}</role>
+            <name>{{ provider['name'] }}</name>
+            <enabled>{{ provider.get('enabled', 'true') }}</enabled>
+{% for parameter_name, parameter_value in provider.get('parameters', {}).items() %}
+            <param>
+                <name>{{ parameter_name }}</name>
+                <value>{{ parameter_value }}</value>
+            </param>
+{% endfor %}
+        </provider>
+{% endfor %}
+    </gateway>
+{% for application in topology.get('applications', []) %}
+    <application>
+        <name>{{ application }}</name>
+    </application>
+{% endfor %}
+{% for service_role, service in topology.get('services', {}).items() %}
+    <service>
+        <role>{{ service_role }}</role>
+{% if "version" in service %}
+        <version>{{ service['version'] }}</version>
+{% endif %}
+{% for host in service.get('hosts', []) %}
+        <url>{{ service.get('scheme', 'https://') }}{{ host }}:{{ service['port'] }}{{ service.get('location', '') }}</url>
+{% endfor %}
+{% for parameter_name, parameter_value in service.get('parameters', {}).items() %}
+        <param>
+            <name>{{ parameter_name }}</name>
+            <value>{{ parameter_value }}</value>
+        </param>
+{% endfor %}
+    </service>
+{% endfor %}
+</topology>

@@ -2,6 +2,27 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+- name: Test Ranger Admin API
+  uri:
+    url: "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}/service/public/v2/api/service"
+    user: admin
+    password: "{{ ranger_admin_password }}"
+    force_basic_auth: true
+    method: GET
+    validate_certs: no
+  register: ranger_api_status
+  failed_when: 
+    - ranger_api_status.status != 200
+    - ranger_api_status.json is not defined
+  tags: 
+    - ranger_api_test
+
+- name: Debug Ranger API status
+  debug:
+    var: ranger_api_status
+  tags: 
+    - ranger_api_test
+
 - name: Configure Ranger Admin policies
   tosit.tdp.ranger_policy:
     policy_mgr_url: "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}"

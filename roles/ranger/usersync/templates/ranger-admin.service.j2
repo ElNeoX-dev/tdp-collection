@@ -1,0 +1,17 @@
+[Unit]
+Description=Ranger Admin
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ ranger_user }}
+Group={{ hadoop_group }}
+Type=forking
+PIDFile={{ ranger_pid_dir }}/rangeradmin.pid
+ExecStart=/usr/bin/ranger-admin start
+ExecStop=/usr/bin/ranger-admin stop
+LimitNOFILE=64000
+Restart={{ ranger_admin_restart }}
+
+[Install]
+WantedBy=multi-user.target

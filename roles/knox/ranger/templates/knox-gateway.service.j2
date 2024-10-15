@@ -1,0 +1,19 @@
+[Unit]
+Description=Knox Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+User={{ knox_user }}
+Group={{ knox_group }}
+PIDFile={{ knox_pid_dir }}/gateway.pid
+Environment="ENV_PID_DIR={{ knox_pid_dir }}"
+ExecStart={{ knox_install_dir }}/bin/gateway.sh start --config {{ knox_conf_dir }}
+ExecStop={{ knox_install_dir }}/bin/gateway.sh stop
+SuccessExitStatus=143
+LimitNOFILE=64000
+Restart={{ knox_restart }}
+
+[Install]
+WantedBy=multi-user.target

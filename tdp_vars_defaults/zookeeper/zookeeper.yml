@@ -3,7 +3,7 @@
 
 ---
 # ZooKeeper version
-zookeeper_version: 3.4.6
+zookeeper_version: 3.8.4
 zookeeper_dist_release: "zookeeper-{{ zookeeper_version }}"
 zookeeper_dist_file: "{{ zookeeper_dist_release }}.tar.gz"
 
@@ -43,7 +43,7 @@ zookeeper_cli_cmd_script: /usr/bin/zkCli.sh
 # ZooKeeper logging configuration
 # Root logger level should be: [FATAL| ERROR| WARN| INFO| DEBUG| TRACE]
 zookeeper_root_logger_level: INFO
-# Root logger should be: [RFA | DRFA]  
+# Root logger should be: [RFA | DRFA]
 zookeeper_root_logger: RFA
 # Common appenders config
 zookeeper_log_layout_pattern: "{{ tdp_log_layout_pattern }}"
@@ -52,7 +52,6 @@ zookeeper_log_drfa_date_pattern: "'.'yyyy-MM-dd"
 # RFA appenders config
 zookeeper_log_rfa_maxfilesize: 256MB
 zookeeper_log_rfa_maxbackupindex: 10
-
 
 # Kerberos
 ###

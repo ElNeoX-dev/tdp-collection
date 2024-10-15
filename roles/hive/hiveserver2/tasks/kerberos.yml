@@ -56,3 +56,11 @@
         user: root
         group: "{{ hadoop_group }}"
         mode: "0640"
+        
+- name: Template jaas.conf
+  ansible.builtin.template:
+    src: jaas.conf.j2
+    dest: "/etc/hive/conf.s2/jaas.conf"
+    owner: root
+    group: root
+    mode: "644"

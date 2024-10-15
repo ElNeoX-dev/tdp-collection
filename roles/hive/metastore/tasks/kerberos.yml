@@ -30,3 +30,11 @@
     group: "{{ hadoop_group }}"
     mode: "0600"
   when: not krb_create_principals_keytabs
+  
+- name: Template jaas.conf
+  ansible.builtin.template:
+    src: jaas.conf.j2
+    dest: "/etc/hive/conf.ms/jaas.conf"
+    owner: root
+    group: root
+    mode: "644"

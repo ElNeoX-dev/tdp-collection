@@ -1,0 +1,7 @@
+d {{ hadoop_yarn_pid_dir }} 0755 {{ yarn_user }} {{ hadoop_group }} -
+{% if 'yarn_nm' in group_names and cgroups_enabled %}
+{% for item in cgroups_yarn_dirs %}
+d {{ item.path }} {{ item.mode }} {{ item.owner }} {{ item.group }} -
+Z {{ item.path }} {{ item.mode }} {{ item.owner }} {{ item.group }} -
+{% endfor %}
+{% endif %}

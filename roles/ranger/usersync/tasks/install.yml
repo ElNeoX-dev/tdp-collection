@@ -56,7 +56,7 @@
 
 - name: Create log directory
   ansible.builtin.file:
-    path: "{{ ranger_log_dir }}"
+    path: "{{ ranger_log_dir }}/usersync"
     state: directory
     group: "{{ hadoop_group }}"
     owner: root

@@ -53,17 +53,18 @@ hdfs_site:
   dfs.datanode.ipc.address: "0.0.0.0:{{ hdfs_dn_ipc_port }}"
   dfs.datanode.data.dir: "{{ hdfs_datanode_data_dirs }}"
   dfs.datanode.kerberos.principal: dn/_HOST@{{ realm }}
+  dfs.permissions.superusergroup: "tdp_user"
   dfs.datanode.keytab.file: /etc/security/keytabs/dn.service.keytab
   dfs.encryption.key.provider.uri: "{% if 'ranger_kms' in groups and groups['ranger_kms'] %}{{ ranger_kms_url }}{% else %}{% endif %}"
 
 namenode_kerberos_principal: "nn/{{ ansible_fqdn }}@{{ realm }}"
 
 # Ranger HDFS properties
-ranger_hdfs_release: ranger-2.0.0-1.0-hdfs-plugin
+ranger_hdfs_release: ranger-2.5.0-1.0-hdfs-plugin
 ranger_hdfs_dist_file: "{{ ranger_hdfs_release }}.tar.gz"
 ranger_hdfs_install_dir: "{{ hadoop_root_dir }}/ranger-hdfs-plugin"
 ranger_hdfs_install_properties:
-  POLICY_MGR_URL:  "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}"
+  POLICY_MGR_URL: "{% if ranger_ha_address is defined %}{{ ranger_ha_address }}{% else %}https://{{ groups['ranger_admin'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_adm_https_port }}{% endif %}"
   REPOSITORY_NAME: hdfs-tdp
   XAAUDIT_SOLR_ENABLE: "{% if 'ranger_solr' in groups and groups['ranger_solr'] %}true{% else %}false{% endif %}"
   XAAUDIT_SOLR_URL: "{% if 'ranger_solr' in groups and groups['ranger_solr'] %}http://{{ groups['ranger_solr'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ ranger_solr_http_port }}/solr/ranger_audits{% else %}NONE{% endif %}"

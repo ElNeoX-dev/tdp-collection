@@ -13,8 +13,7 @@
 - name: Setup usersync
   ansible.builtin.shell: |
     export JAVA_HOME={{ java_home }}
-    export PATH="${JAVA_HOME}/bin:${PATH}"
-    {{ python_interpreter }} ./setup.py
+    ./setup.sh
   args:
     chdir: "{{ ranger_usersync_install_dir }}"
 
@@ -34,13 +33,13 @@
     group: "{{ hadoop_group }}"
     mode: "750"
 
-- name: customise usersync configuration
-  ansible.builtin.template:
-    src: ranger-ugsync-site.xml.j2
-    dest: "{{ ranger_usersync_install_dir }}/ranger-ugsync-site.xml"
-    owner: "{{ ranger_user }}"
-    group: "{{ hadoop_group }}"
-    mode: "750"
+# - name: customise usersync configuration
+#   ansible.builtin.template:
+#     src: ranger-ugsync-site.xml.j2
+#     dest: "{{ ranger_usersync_install_dir }}/ranger-ugsync-site.xml"
+#     owner: "{{ ranger_user }}"
+#     group: "{{ hadoop_group }}"
+#     mode: "750"
 
 - name: Render jmxremote.password
   ansible.builtin.template:

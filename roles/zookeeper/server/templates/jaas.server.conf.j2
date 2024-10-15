@@ -1,0 +1,17 @@
+Server {
+  com.sun.security.auth.module.Krb5LoginModule required
+  useKeyTab=true
+  keyTab="/etc/security/keytabs/zookeeper.service.keytab"
+  storeKey=true
+  useTicketCache=false
+  principal="zookeeper/{{ ansible_fqdn }}@{{ realm }}";
+};
+
+Client {
+  com.sun.security.auth.module.Krb5LoginModule required
+  useKeyTab=true
+  keyTab="/etc/security/keytabs/zookeeper.headless.keytab"
+  storeKey=true
+  useTicketCache=false
+  principal="{{ zookeeper_headless_principal }}@{{ realm }}";
+};
