@@ -3,6 +3,7 @@ Client {
   useKeyTab=true
   keyTab="/etc/security/keytabs/rangeradmin.service.keytab"
   storeKey=true
-  useTicketCache=true
-  principal="ranger@{{ realm }}";
+  useTicketCache=false
+  renewTGT=true
+  principal="rangeradmin/{{ inventory_hostname }}.tdp@{{ realm }}";
 };
