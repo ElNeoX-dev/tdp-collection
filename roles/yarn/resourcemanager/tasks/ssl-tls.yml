@@ -51,4 +51,4 @@
   vars:
     truststore_location: /etc/pki/java/cacerts
     truststore_password: changeit
-    alias: root_ca
+    alias: tdp_ca
