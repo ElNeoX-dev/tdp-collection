@@ -19,7 +19,7 @@
 
 ENV_PID_DIR="{{ knox_pid_dir }}"
 
-JAVA_VERSION_PATTERNS=( "1.6.0_31/bin/java$" "1.6.0_.*/bin/java$" "1.6.0.*/bin/java$" "1.6\..*/bin/java$" "/bin/java$" )
+JAVA_VERSION_PATTERNS=( "2.0.0_31/bin/java$" "2.0.0_.*/bin/java$" "2.0.0.*/bin/java$" "2.0\..*/bin/java$" "/bin/java$" )
 
 function findJava() {
   # Check to make sure any existing JAVA var is valid.
