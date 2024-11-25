@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="app.log.dir">/var/log/knox</Property>
+        <Property name="app.log.file">${sys:launcher.name}.log</Property>
+        <Property name="app.audit.file">${sys:launcher.name}-audit.log</Property>
+        <Property name="knox.log.maxfilesize">256MB</Property>
+        <Property name="knox.log.maxbackupindex">10</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yy/MM/dd HH:mm:ss} %p %c{2}: %m%n" />
+        </Console>
+
+        <RollingFile name="RFA" fileName="${app.log.dir}/${app.log.file}" 
+                     filePattern="${app.log.dir}/${app.log.file}.%d{yyyy-MM-dd}">
+            <PatternLayout pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} - %-5p [%t:%C{1}@%L] - %m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${knox.log.maxfilesize}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${knox.log.maxbackupindex}" />
+        </RollingFile>
+
+        <RollingFile name="auditfile" fileName="${app.log.dir}/${app.audit.file}" 
+                     filePattern="${app.log.dir}/${app.audit.file}.%d{yyyy-MM-dd}">
+            <PatternLayout pattern="%m%n" />
+            <TimeBasedTriggeringPolicy />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="RFA" />
+        </Root>
+
+        <Logger name="org.apache.knox.gateway" level="DEBUG" additivity="false" />
+        <Logger name="audit" level="DEBUG">
+            <AppenderRef ref="auditfile" />
+        </Logger>
+        <!-- Additional loggers can be configured similarly -->
+    </Loggers>
+</Configuration>
