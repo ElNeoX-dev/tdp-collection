@@ -129,10 +129,10 @@
     group: root
     mode: "644"
 
-- name: Template log4j2.properties file
+- name: Template log4j2.xml file
   ansible.builtin.template:
-    src: solr_standalone/log4j2.properties.j2
-    dest: "{{ solr_conf_dir }}/log4j2.properties"
+    src: solr_standalone/log4j2.xml.j2
+    dest: "{{ solr_conf_dir }}/log4j2.xml"
     owner: root
     group: root
     mode: "644"
