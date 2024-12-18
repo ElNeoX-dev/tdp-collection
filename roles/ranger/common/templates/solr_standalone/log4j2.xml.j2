@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration status="WARN">
+
+    <!-- Root Logger -->
+    <root level="{{ ranger_root_logger_level }}">
+        <appender-ref ref="{{ ranger_root_logger }}" />
+    </root>
+
+    <!-- List of all appenders -->
+    <appenders>
+        <!-- Rolling File Appender -->
+        <appender name="RFA" class="org.apache.logging.log4j.core.appender.RollingFileAppender">
+            <fileName>{{ ranger_solr_log_dir }}/{{ ranger_solr_log_file }}</fileName>
+            <filePattern>{{ ranger_solr_log_dir }}/{{ ranger_solr_log_file }}.%i</filePattern>
+            <layout class="org.apache.logging.log4j.core.layout.PatternLayout">
+                <pattern>{{ ranger_log_layout_pattern }}</pattern>
+            </layout>
+            <policies>
+                <sizeBasedTriggeringPolicy size="{{ ranger_log_rfa_maxfilesize }}" />
+            </policies>
+            <strategy class="org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy">
+                <max>{{ ranger_log_rfa_maxbackupindex }}</max>
+            </strategy>
+        </appender>
+
+        <!-- Daily Rolling File Appender -->
+        <appender name="DRFA" class="org.apache.logging.log4j.core.appender.RollingFileAppender">
+            <fileName>{{ ranger_solr_log_dir }}/{{ ranger_solr_log_file }}</fileName>
+            <filePattern>{{ ranger_solr_log_dir }}/{{ ranger_solr_log_file }}.{{ ranger_solr_log_drfa_date_pattern }}</filePattern>
+            <layout class="org.apache.logging.log4j.core.layout.PatternLayout">
+                <pattern>{{ ranger_log_layout_pattern }}</pattern>
+            </layout>
+            <policies>
+                <timeBasedTriggeringPolicy interval="1" modulate="false" />
+            </policies>
+            <strategy class="org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy">
+                <max>{{ ranger_log_drfa_maxbackupindex }}</max>
+            </strategy>
+        </appender>
+    </appenders>
+
+</configuration>
+

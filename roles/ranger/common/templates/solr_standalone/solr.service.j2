@@ -8,7 +8,7 @@ User={{ solr_user }}
 Group={{ hadoop_group }}
 Environment="SOLR_PID_DIR={{ solr_pid_dir }}"
 Environment="SOLR_LOGS_DIR={{ ranger_solr_log_dir }}"
-Environment="LOG4J_PROPS={{ solr_conf_dir }}/log4j2.properties"
+Environment="LOG4J_PROPS={{ solr_conf_dir }}/log4j2.xml"
 Environment="SOLR_HEAP={{ ranger_solr_heapsize }}"
 Environment="SOLR_DATA_HOME={{ ranger_solr_datadir }}"
 PIDFile={{ solr_pid_dir }}/solr-8983.pid

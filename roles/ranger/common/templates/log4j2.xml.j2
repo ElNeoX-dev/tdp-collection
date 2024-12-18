@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- Root Logger -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{1} - %m%n" />
+        </layout>
+    </appender>
+
+    <root>
+        <priority value="DEBUG" />
+        <appender-ref ref="RFA" />
+    </root>
+
+    <!-- Rolling File Appender -->
+    <appender name="RFA" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="${ranger.log.dir}/${ranger.log.file}" />
+        <param name="MaxFileSize" value="${ranger.log.maxfilesize}" />
+        <param name="MaxBackupIndex" value="${ranger.log.maxbackupindex}" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="{{ ranger_log_layout_pattern }}" />
+        </layout>
+    </appender>
+
+    <!-- Daily Rolling File Appender -->
+    <appender name="DRFA" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${ranger.log.dir}/${ranger.log.file}" />
+        <param name="DatePattern" value="{{ ranger_log_drfa_date_pattern }}" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="{{ ranger_log_layout_pattern }}" />
+        </layout>
+    </appender>
+
+</log4j:configuration>
+
